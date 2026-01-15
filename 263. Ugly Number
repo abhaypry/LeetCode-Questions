@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool isUgly(int n) {
+        // Numbers less than or equal to 0 are not ugly by definition
+        if (n <= 0) return false;
+
+        // Repeatedly divide n by 2, 3, and 5
+        for (int factor : {2, 3, 5}) {
+            while (n % factor == 0) {
+                n /= factor;
+            }
+        }
+
+        // If n is reduced to 1, all its prime factors were 2, 3, or 5
+        return n == 1;
+    }
+};
