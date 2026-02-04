@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int row = -1, col = -1;
+
+        // Find any land cell
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[0].size(); j++) {
+                if (grid[i][j] == 1) {
+                    row = i;
+                    col = j;
+                    break;
+                }
+            }
+            if (row != -1) break;
+        }
+
+        vector<vector<bool>> visited(
+            grid.size(), vector<bool>(grid[0].size(), false)
+        );
+
+        return tufaan(grid, row, col, visited);
+    }
+
+    int tufaan(vector<vector<int>>& grid, int i, int j,
+            vector<vector<bool>>& visited) {
+
+        // Out of bounds
+        if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size())
+            return 1;
+
+        // Water cell
+        if (grid[i][j] == 0)
+            return 1;
+
+        // Already visited land
+        if (visited[i][j])
+            return 0;
+
+        visited[i][j] = true;
+
+        int up    = tufaan(grid, i - 1, j, visited);
+        int down  = tufaan(grid, i + 1, j, visited);
+        int left  = tufaan(grid, i, j - 1, visited);
+        int right = tufaan(grid, i, j + 1, visited);
+
+        return up + down + left + right;
+    }
+};
