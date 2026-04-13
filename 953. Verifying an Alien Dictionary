@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        vector<int> freq(26, 0);
+        int n = order.size();
+        for (int i = 0; i < n; i++) {
+            freq[order[i] - 'a'] = i + 1;
+        }
+        n = words.size();
+        string word1, word2;
+        word1 = words[0];
+        for (int i = 1; i < n; i++) {
+            word2 = words[i];
+            int x = 0;
+            int y = 0;
+            int sze1 = word1.size();
+            int sze2 = word2.size();
+            bool flag = true;
+            int count = 0;
+            while (x < sze1 && y < sze2) {
+                if (freq[word1[x] - 'a'] < freq[word2[y] - 'a']) {
+                    break;
+                }
+                if (freq[word1[x] - 'a'] > freq[word2[y] - 'a']) {
+                    flag = false;
+                    break;
+                }
+                if (freq[word1[x] - 'a'] == freq[word2[y] - 'a']) {
+                    count++;
+                }
+                x++;
+                y++;
+            }
+            if (flag == false)
+                return false;
+            if (flag == true) {
+                if (count == min(sze1, sze2) && sze1 > sze2)
+                    return false;
+            }
+            word1 = word2;
+        }
+
+        return true;
+    }
+};
