@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int numRookCaptures(vector<vector<char>>& board) {
+
+        int totalPawnsKilled = 0;
+        int rowOfRook = -1;
+        int colOfRook = -1;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] == 'R') {
+                    rowOfRook = i;
+                    colOfRook = j;
+                    break;
+                }
+            }
+        }
+
+        // Left check
+        for (int j = colOfRook - 1; j >= 0; j--) {
+            if (board[rowOfRook][j] != '.') {
+                if (board[rowOfRook][j] == 'p') {
+                    totalPawnsKilled++;
+                    break;
+                } else
+                    break;
+            }
+        }
+        // Right check
+        for (int j = colOfRook + 1; j < 8; j++) {
+            if (board[rowOfRook][j] != '.') {
+                if (board[rowOfRook][j] == 'p') {
+                    totalPawnsKilled++;
+                    break;
+                } else
+                    break;
+            }
+        }
+        // Upward check
+        for (int i = rowOfRook - 1; i >= 0; i--) {
+            if (board[i][colOfRook] != '.') {
+                if (board[i][colOfRook] == 'p') {
+                    totalPawnsKilled++;
+                    break;
+                } else
+                    break;
+            }
+        }
+        // Downward check
+        for (int i = rowOfRook + 1; i < 8; i++) {
+            if (board[i][colOfRook] != '.') {
+                if (board[i][colOfRook] == 'p') {
+                    totalPawnsKilled++;
+                    break;
+                } else
+                    break;
+            }
+        }
+        return totalPawnsKilled;
+    }
+};
