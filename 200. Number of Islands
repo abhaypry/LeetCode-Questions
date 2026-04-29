@@ -1,0 +1,50 @@
+
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+
+        /* going through the matrix */
+        const int m = grid.size();
+        const int n = grid[0].size();
+
+        int res = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                if (grid[i][j] == '1') {
+                    dfs(grid, {i, j});
+                    res++;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    /* variants of movement */
+    vector<pair<int, int>> dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+    void dfs(vector<vector<char>>& grid, pair<int, int> pos) {
+
+        const int m = grid.size();
+        const int n = grid[0].size();
+
+        /* mark a visit */
+        auto [x, y] = pos;
+        grid[x][y] = '0';
+
+        /* recursively calling all '1' neighbors */
+        for (auto dir : dirs) {
+            auto [dx, dy] = dir;
+
+            int x2 = dx + x;
+            int y2 = dy + y;
+
+            if (x2 >= 0 and x2 < m and y2 >= 0 and y2 < n and
+                grid[x2][y2] == '1') {
+                dfs(grid, {x2, y2});
+            }
+        }
+    }
+};
