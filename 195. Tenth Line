@@ -1,0 +1,31 @@
+c_code=$(cat <<EOF
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *fp = fopen("file.txt", "r");
+    if (!fp) return 1;
+
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    int lineno = 0;
+
+    while ((read = getline(&line, &len, fp)) != -1) {
+        lineno++;
+        if (lineno == 10) {
+            printf("%s", line);
+            break;
+        }
+    }
+
+    free(line);
+    fclose(fp);
+    return 0;
+}
+EOF
+)
+
+echo "$c_code" | gcc -x c - -o program
+
+awk 'BEGIN {system("./program")}'
